@@ -1,0 +1,23 @@
+{
+  "name": "graphql-study-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "fcxmarquez",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "graphql": "^16.9.0",
+    "graphql-http": "^1.22.0",
+    "graphql-playground-middleware-express": "^1.7.23"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
