@@ -12,6 +12,16 @@ const UserType = new GraphQLObjectType({
     })
 })
 
+// Sample user data
+const users = [
+    { id: '1', name: 'John Doe', age: 30 },
+    { id: '2', name: 'Jane Smith', age: 25 },
+    { id: '3', name: 'Bob Johnson', age: 35 },
+    { id: '4', name: 'Alice Brown', age: 28 },
+    { id: '5', name: 'Charlie Davis', age: 40 }
+];
+
+
 // Root Query
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -21,11 +31,7 @@ const RootQuery = new GraphQLObjectType({
             type: UserType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                return {
-                    id: 1,
-                    name: 'John Doe',
-                    age: 20
-                }
+                return users.find(user => user.id === args.id)
             }
         }
     }
