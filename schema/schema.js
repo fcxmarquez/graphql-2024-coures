@@ -1,7 +1,7 @@
 const graphql = require('graphql');
 const { usersData, hobbiesData, postsData, userHobbiesData } = require('../data/dummyData');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLSchema, GraphQLList } = graphql;
-
+const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLSchema, GraphQLList } =
+  graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -10,7 +10,22 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
-    profession: { type: GraphQLString }
+    profession: { type: GraphQLString },
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve(parent, args) {
+        return postsData.filter((post) => post.userId === parent.id);
+      }
+    },
+    hobbies: {
+      type: new GraphQLList(HobbyType),
+      resolve(parent, args) {
+        const hobbyIds = userHobbiesData
+          .filter((hobby) => hobby.userId === parent.id)
+          .map((hobby) => hobby.hobbyId);
+        return hobbiesData.filter((hobby) => hobbyIds.includes(hobby.id));
+      }
+    }
   })
 });
 
@@ -24,7 +39,10 @@ const HobbyType = new GraphQLObjectType({
     users: {
       type: new GraphQLList(UserType),
       resolve(parent, args) {
-        return userHobbiesData.filter((userHobby) => userHobby.hobbyId === parent.id).map((userHobby) => userHobby.userId);
+        const userIds = userHobbiesData
+          .filter((userHobby) => userHobby.hobbyId === parent.id)
+          .map((userHobby) => userHobby.userId);
+        return usersData.filter((user) => userIds.includes(user.id));
       }
     }
   })

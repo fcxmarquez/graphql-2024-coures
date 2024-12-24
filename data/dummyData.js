@@ -132,6 +132,31 @@ const postsData = [
     id: '8',
     comment: 'Working on a new photography project. Stay tuned!',
     userId: '6'
+  },
+  {
+    id: '9',
+    comment: 'Just completed my first woodworking project!',
+    userId: '8'
+  },
+  {
+    id: '10',
+    comment: 'Meditation session was so refreshing today.',
+    userId: '5'
+  },
+  {
+    id: '11',
+    comment: 'Check out my latest photography exhibition!',
+    userId: '1'
+  },
+  {
+    id: '12',
+    comment: 'Started a new research project in psychology.',
+    userId: '8'
+  },
+  {
+    id: '13',
+    comment: 'My garden is blooming with spring flowers!',
+    userId: '4'
   }
 ];
 
