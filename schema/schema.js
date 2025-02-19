@@ -1,7 +1,14 @@
 const graphql = require('graphql');
 const { usersData, hobbiesData, postsData, userHobbiesData } = require('../data/dummyData');
-const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLSchema, GraphQLList } =
-  graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLSchema,
+  GraphQLList,
+  GraphQLNonNull
+} = graphql;
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -92,6 +99,49 @@ const RootQuery = new GraphQLObjectType({
   }
 });
 
+// Mutations
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    createUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        profession: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        const newUser = {
+          id: args.id,
+          name: args.name,
+          age: args.age,
+          profession: args.profession
+        };
+        return newUser;
+      }
+    },
+    createPost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        comment: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        const newPost = {
+          id: args.id,
+          comment: args.comment,
+          userId: args.userId
+        };
+        return newPost;
+      }
+    }
+    // todo: create hobby
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 });
