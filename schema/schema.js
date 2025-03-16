@@ -82,6 +82,12 @@ const RootQuery = new GraphQLObjectType({
         return usersData.find((user) => user.id === args.id);
       }
     },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve (parent, args) {
+        return usersData;
+      }
+    },
     hobby: {
       type: HobbyType,
       args: { id: { type: GraphQLID } },
@@ -89,11 +95,23 @@ const RootQuery = new GraphQLObjectType({
         return hobbiesData.find((hobby) => hobby.id === args.id);
       }
     },
+    hobbies: {
+      type: new GraphQLList(HobbyType),
+      resolve (parent, args) {
+        return hobbiesData;
+      }
+    },
     post: {
       type: PostType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return postsData.find((post) => post.id === args.id);
+      }
+    },
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve(parent, args) {
+        return postsData;
       }
     }
   }
@@ -136,8 +154,24 @@ const Mutation = new GraphQLObjectType({
         };
         return newPost;
       }
+    },
+    createHobby: {
+      type: HobbyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        title: { type: new GraphQLNonNull(GraphQLString) },
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        const newHobby = {
+          id: args.id,
+          title: args.title,
+          description: args.description
+        };
+        return newHobby;
+      }
     }
-    // todo: create hobby
   }
 });
 
